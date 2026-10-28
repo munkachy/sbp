@@ -29,16 +29,19 @@ Never commit the readable pages. A new page joins `PAGES` in `tools/lock.py`. Im
 
 ## Calendar (for the current site)
 
-The SPRX CMS strips scripts written into a page but keeps `<script src>` tags, so the calendar has two parts:
-`embed/calendar-block.html` is pasted once into the CMS page (plain HTML and CSS, styled like the tuition page's
-`#sbp-tuition` block, readable with no script), and its last line loads `embed/calendar.js` from GitHub Pages,
-which redraws it as the interactive calendar (month view, today, filters, past events hidden, .ics downloads).
-**The events live only in the list at the top of `embed/calendar.js`.** To change one: edit it, run
-`python3 embed/build.py` (rebuilds the plain block from the same list), test, commit, push; the live site picks it up
-within about 10 minutes. Re-paste the block in the CMS only when its plain copy matters (it shows if the script fails).
-No sports events (Rachael, 28 Oct 2026). Test: open the live page in Playwright, put the block into
-`.calendarContainer`, and route the script URL to the local file. When the site moves to a school GitHub account,
-change the script URL in `embed/build.py` and the one line in the CMS.
+The SPRX CMS strips scripts written into a page but keeps `<script src>` tags. So the whole calendar lives in
+`embed/calendar.js` (events, styles, everything), served by GitHub Pages, and the CMS page
+(www.stbernardprep.com/parent-portal/calendar) holds only this, pasted once in Source mode:
+
+    <div class="sbp" id="sbp-calendar"><p>Loading the school calendar…</p></div>
+    <script src="https://munkachy.github.io/sbp/embed/calendar.js" defer></script>
+
+The script draws into that div: toolbar (Month/List, Add all, filters), three "Coming up" cards, month grid or list,
+days off. Styled like the tuition page's `#sbp-tuition` block; the page supplies its own title, so no heading.
+**The events are the list at the top of `embed/calendar.js`.** To change one: edit it, test, commit, push; the live
+site picks it up within about 10 minutes (Pages cache). No sports events (Rachael, 28 Oct 2026).
+Test: open the live page in Playwright, put the snippet into `.content-wrap`, and route the script URL to the local
+file. When the site moves to a school GitHub account, the script URL changes and the CMS snippet must be updated once.
 
 ## Links to pages not built yet
 

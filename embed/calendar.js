@@ -1,11 +1,11 @@
-// St. Bernard Prep school calendar for www.stbernardprep.com/calendar.
-// The CMS page holds a plain copy of the calendar (made by build.py) and loads this file, which turns it into the
-// interactive calendar: month view, today, filters, past events hidden, "Add to calendar".
+// St. Bernard Prep school calendar for the school website (SPRX CMS). Everything lives here; the CMS page holds only
+//   <div class="sbp" id="sbp-calendar"><p>Loading the school calendar…</p></div>
+//   <script src="https://munkachy.github.io/sbp/embed/calendar.js" defer></script>
+// and this file draws the whole calendar into that div: coming up, month view, list, filters, "Add to calendar".
 //
 // TO CHANGE AN EVENT: edit the list below and commit. The live site picks it up within about 10 minutes.
 // d = first day, end = last day (only for events that run several days), at = time, where = place,
 // note = extra line, c = category: "event", "academic", "noschool" or "admissions".
-// Then run `python3 embed/build.py` so the plain copy in the CMS can be refreshed when convenient.
 (function () {
   var EVENTS = /* EVENTS */ [
     {"d": "2026-08-05", "end": "2026-08-07", "t": "Teacher Workdays", "c": "academic"},
@@ -75,21 +75,15 @@
     '#sbp-calendar [hidden]{display:none!important}' +
     '#sbp-calendar .sbpc-eyebrow{margin:0 0 12px;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}' +
     '#sbp-calendar .sbpc-eyebrow.sbpc-dk{color:var(--golddk)}' +
-    /* feature */
-    '#sbp-calendar .sbpc-hero{margin:0 0 1.75rem;padding:30px 22px 26px;color:var(--cream);background:radial-gradient(90% 130% at 100% 0,rgba(70,140,188,.38) 0,rgba(70,140,188,0) 62%),var(--navy);border-top:4px solid var(--gold);border-radius:18px;box-shadow:0 18px 40px -22px rgba(1,37,61,.75)}' +
-    '#sbp-calendar .sbpc-hero h2{margin:0 0 14px;color:#fff;font-size:38px;line-height:1.06}' +
-    '#sbp-calendar .sbpc-lede{max-width:46rem;color:rgba(252,249,240,.93);font-size:18px;line-height:1.55}' +
-    '#sbp-calendar .sbpc-stats{display:grid;grid-template-columns:1fr;gap:12px;margin:24px 0 0}' +
-    '#sbp-calendar .sbpc-stat{display:block;width:100%;padding:16px 18px 18px;background:rgba(252,249,240,.07);border:1px solid rgba(216,185,92,.4);border-radius:14px;text-align:left;color:var(--cream);transition:background-color .18s}' +
-    '#sbp-calendar .sbpc-stat:hover{background:rgba(252,249,240,.13)}' +
-    '#sbp-calendar .sbpc-stat small{display:block;margin:0 0 6px;color:rgba(252,249,240,.75);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}' +
-    '#sbp-calendar .sbpc-stat .sbpc-big{display:block;margin:0 0 6px;color:var(--gold);font-family:var(--disp);font-size:30px;line-height:1.05}' +
-    '#sbp-calendar .sbpc-stat span.sbpc-what{display:block;color:rgba(252,249,240,.95);font-size:16px;font-weight:700;line-height:1.35}' +
     /* toolbar */
-    '#sbp-calendar .sbpc-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin:0 0 18px}' +
+    '#sbp-calendar .sbpc-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;margin:0 0 14px}' +
+    '#sbp-calendar .sbpc-left{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}' +
     '#sbp-calendar .sbpc-views{display:inline-flex;padding:4px;border:1px solid var(--navy);border-radius:999px}' +
     '#sbp-calendar .sbpc-views button{padding:9px 22px;border-radius:999px;font-size:16px;font-weight:500}' +
     '#sbp-calendar .sbpc-views button[aria-pressed="true"]{background:var(--navy);color:var(--cream)}' +
+    '#sbp-calendar .sbpc-addall{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px solid var(--gold);border-radius:999px;color:var(--navy);font-size:14.5px;font-weight:500;transition:background-color .18s}' +
+    '#sbp-calendar .sbpc-addall:hover{background:var(--goldsoft)}' +
+    '#sbp-calendar .sbpc-addall svg{width:16px;height:16px;flex:none;color:var(--golddk)}' +
     '#sbp-calendar .sbpc-filters{display:flex;flex-wrap:wrap;gap:8px}' +
     '#sbp-calendar .sbpc-filter{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:7px 15px;background:#fff;border:1px solid var(--line);border-radius:999px;color:var(--navy);font-size:15px;font-weight:500;transition:opacity .15s,border-color .15s}' +
     '#sbp-calendar .sbpc-filter:hover{border-color:var(--gold)}' +
@@ -100,9 +94,13 @@
     '#sbp-calendar .sbpc-k-academic{border:2px solid var(--navy)}' +
     '#sbp-calendar .sbpc-k-noschool{background:var(--sky);border:2px solid var(--line2);border-radius:4px!important}' +
     '#sbp-calendar .sbpc-k-admissions{background:var(--navy);border:2px solid var(--navy)}' +
-    '#sbp-calendar .sbpc-addall{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:10px 24px;background:var(--gold);border:1px solid var(--gold);border-radius:999px;color:var(--navy);font-size:16px;font-weight:500;transition:background-color .18s}' +
-    '#sbp-calendar .sbpc-addall:hover{background:#e8d08a}' +
-    '#sbp-calendar .sbpc-addall svg{width:18px;height:18px;flex:none}' +
+    /* coming up */
+    '#sbp-calendar .sbpc-stats{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 22px}' +
+    '#sbp-calendar .sbpc-stat{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 16px;width:100%;padding:14px 18px;background:radial-gradient(120% 160% at 100% 0,rgba(70,140,188,.35) 0,rgba(70,140,188,0) 60%),var(--navy);border-top:3px solid var(--gold);border-radius:14px;color:var(--cream);text-align:left;box-shadow:0 12px 26px -18px rgba(1,37,61,.8);transition:transform .18s}' +
+    '#sbp-calendar .sbpc-stat:hover{transform:translateY(-2px)}' +
+    '#sbp-calendar .sbpc-stat small{grid-column:1/-1;display:block;color:var(--gold);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}' +
+    '#sbp-calendar .sbpc-stat .sbpc-big{display:block;color:var(--gold);font-family:var(--disp);font-size:26px;line-height:1.1;white-space:nowrap}' +
+    '#sbp-calendar .sbpc-stat span.sbpc-what{display:block;color:#fff;font-size:15.5px;font-weight:700;line-height:1.3}' +
     /* month card */
     '#sbp-calendar .sbpc-card{overflow:hidden;background:#fff;border-radius:16px;box-shadow:0 1px 2px rgba(1,37,61,.1),0 16px 34px -18px rgba(1,37,61,.4)}' +
     '#sbp-calendar .sbpc-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:14px 18px;background:var(--navy);color:var(--cream)}' +
@@ -169,9 +167,8 @@
     '#sbp-calendar .sbpc-offs b{flex:none;min-width:8.5rem;color:var(--navy);font-variant-numeric:tabular-nums}' +
     '#sbp-calendar .sbpc-foot{margin:2rem 2px 0;color:var(--mute);font-size:14.5px}' +
     '@container sbpcal (min-width:700px){' +
-      '#sbp-calendar .sbpc-hero{padding:42px 42px 36px}' +
-      '#sbp-calendar .sbpc-hero h2{font-size:52px}' +
-      '#sbp-calendar .sbpc-stats{grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}' +
+      '#sbp-calendar .sbpc-stats{grid-template-columns:repeat(3,1fr);gap:14px}' +
+      '#sbp-calendar .sbpc-stat{grid-template-columns:1fr;padding:16px 20px 18px}' +
       '#sbp-calendar .sbpc-off-box{padding:28px 32px}' +
       '#sbp-calendar .sbpc-offs{grid-template-columns:1fr 1fr}' +
       '#sbp-calendar li.sbpc-ev{grid-template-columns:72px 1fr auto;padding:12px 18px 12px 14px}' +
@@ -188,9 +185,7 @@
       '#sbp-calendar .sbpc-bar h3{font-size:24px}' +
       '#sbp-calendar .sbpc-bar button em{display:none}' +
       '#sbp-calendar .sbpc-bar button{padding:8px 10px}' +
-      '#sbp-calendar .sbpc-tools{flex-direction:column;align-items:stretch}' +
-      '#sbp-calendar .sbpc-views{align-self:flex-start}' +
-      '#sbp-calendar .sbpc-addall{justify-content:center}' +
+      '#sbp-calendar .sbpc-views button{padding:8px 18px}' +
     '}' +
     '@media (prefers-reduced-motion:reduce){#sbp-calendar *{transition:none!important}}';
 
@@ -230,14 +225,12 @@
     var offs = EVENTS.filter(function (e) { return e.c === 'noschool'; });
 
     root.innerHTML = '<style>' + CSS + '</style>' +
-      '<div class="sbpc-hero"><p class="sbpc-eyebrow">' + YEAR + ' School Year</p><h2>School Calendar</h2>' +
-      '<p class="sbpc-lede">Key dates for St. Bernard families, from the first day of classes to Graduation. Athletic schedules are posted separately.</p>' +
+      '<div class="sbpc-tools"><div class="sbpc-left"><div class="sbpc-views" role="group" aria-label="View"><button type="button" data-view="month">Month</button><button type="button" data-view="list">List</button></div>' +
+      '<button type="button" class="sbpc-addall" data-ics="all">' + ICON_CAL + 'Add all to my calendar</button></div>' +
+      '<div class="sbpc-filters" role="group" aria-label="Show"></div></div>' +
       (next.length ? '<div class="sbpc-stats">' + next.map(function (e, i) {
         return '<button type="button" class="sbpc-stat" data-jump="' + e.id + '"><small>' + (i ? 'Then' : 'Coming up') + '</small><span class="sbpc-big">' + when(e) + '</span><span class="sbpc-what">' + esc(e.t) + '</span></button>';
-      }).join('') + '</div>' : '') + '</div>' +
-      '<div class="sbpc-tools"><div class="sbpc-views" role="group" aria-label="View"><button type="button" data-view="month">Month</button><button type="button" data-view="list">List</button></div>' +
-      '<div class="sbpc-filters" role="group" aria-label="Show"></div>' +
-      '<button type="button" class="sbpc-addall" data-ics="all">' + ICON_CAL + 'Add all to my calendar</button></div>' +
+      }).join('') + '</div>' : '') +
       '<div class="sbpc-month"><div class="sbpc-card"><div class="sbpc-bar">' +
       '<button type="button" data-step="-1">' + ICON_L + '<em style="font-style:normal" class="sbpc-pn"></em></button>' +
       '<h3 aria-live="polite"></h3>' +
@@ -248,7 +241,7 @@
       '<div class="sbpc-listview"><p class="sbpc-pastrow"><button type="button" class="sbpc-past"></button></p><div class="sbpc-lbody"></div></div>' +
       '<div class="sbpc-off-box"><p class="sbpc-eyebrow sbpc-dk">No school</p><h3>Days off at a glance</h3><ul class="sbpc-offs">' +
       offs.map(function (e) { return '<li' + (e.end < today ? ' class="is-past"' : '') + '><b>' + when(e) + '</b><span>' + esc(e.t) + '</span></li>'; }).join('') +
-      '</ul></div><p class="sbpc-foot">Dates can change. Watch the weekly announcements for updates.</p>';
+      '</ul></div><p class="sbpc-foot">Dates can change; watch the weekly announcements for updates. Athletic schedules are posted separately.</p>';
 
     var $ = function (s) { return root.querySelector(s); };
     var visible = function (e) { return on[e.c]; };
