@@ -15,6 +15,7 @@ now and at the domain root later (the one exception is `404.html`, see "Going li
 | `images/` | Photos, re-saved from the originals on stbernardprep.com (`/userfiles/bernardpsmvc/images/...`); `og.jpg` is the picture shown when the link is shared |
 | `video/` | `hero-720.mp4` / `hero-1080.mp4` (28 s loop, no sound), `tour-720.mp4` (the 6-minute "Heart of St. Bernard Prep" virtual tour) |
 | `robots.txt`, `sitemap.xml`, `404.html` | See "Going live" |
+| `embed/` | The calendar for the **current** site's page www.stbernardprep.com/calendar (see "Calendar") |
 | `new/` | **The proposed new design** (its `index.html` is sealed too) (https://munkachy.github.io/sbp/new/): `index.html`, `new.css`, `new.js`, sharing `../images`, `../video` and `../assets/fonts.css`. Photos for it are `images/n-*.jpg`, re-saved from the school's inner pages. Every fact on it comes from stbernardprep.com pages; keep it that way |
 
 ## Password
@@ -25,6 +26,19 @@ The preview is locked with a password (the user, 28 Oct 2026; the user knows it,
 To edit a page: `SBP_PASSWORD=... python3 tools/lock.py open SCRATCH`, edit `SCRATCH/index.html` or
 `SCRATCH/new/index.html`, then `SBP_PASSWORD=... python3 tools/lock.py seal SCRATCH` (writes `locked/` and the lock pages).
 Never commit the readable pages. A new page joins `PAGES` in `tools/lock.py`. Images, video, CSS and JS are not sealed.
+
+## Calendar (for the current site)
+
+The SPRX CMS strips scripts written into a page but keeps `<script src>` tags, so the calendar has two parts:
+`embed/calendar-block.html` is pasted once into the CMS page (plain HTML and CSS, styled like the tuition page's
+`#sbp-tuition` block, readable with no script), and its last line loads `embed/calendar.js` from GitHub Pages,
+which redraws it as the interactive calendar (month view, today, filters, past events hidden, .ics downloads).
+**The events live only in the list at the top of `embed/calendar.js`.** To change one: edit it, run
+`python3 embed/build.py` (rebuilds the plain block from the same list), test, commit, push; the live site picks it up
+within about 10 minutes. Re-paste the block in the CMS only when its plain copy matters (it shows if the script fails).
+No sports events (Rachael, 28 Oct 2026). Test: open the live page in Playwright, put the block into
+`.calendarContainer`, and route the script URL to the local file. When the site moves to a school GitHub account,
+change the script URL in `embed/build.py` and the one line in the CMS.
 
 ## Links to pages not built yet
 
