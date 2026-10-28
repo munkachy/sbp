@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>St. Bernard Preparatory School</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#01253d">
+<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="stylesheet" href="assets/fonts.css?v=1">
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; text-align: center; background: #01253d; color: #fcf9f0; font: 1.1rem/1.6 "interstate", Arial, sans-serif; padding: 1.25rem; box-sizing: border-box; }
+  img { width: 5rem; height: auto; }
+  h1 { font: 400 clamp(2rem, 6vw, 3rem)/1.1 "gyst-variable", Georgia, serif; margin: 1rem 0 .5rem; }
+  form { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+  input, button { font: inherit; padding: .65rem 1.25rem; border-radius: 2rem; border: 1px solid #d8b95c; }
+  input { background: #fcf9f0; color: #01253d; width: 11rem; }
+  button { background: #d8b95c; color: #01253d; cursor: pointer; }
+  #msg { min-height: 1.6em; color: #d8b95c; }
+  .opening form { visibility: hidden; }
+</style>
+</head>
+<body>
+<main>
+  <img src="images/mark.svg" alt="">
+  <h1>St. Bernard Prep</h1>
+  <p>This preview is private. Enter the password to see it.</p>
+  <form id="lock">
+    <input id="pw" type="password" inputmode="numeric" autocomplete="current-password" aria-label="Password" required autofocus>
+    <button>Enter</button>
+  </form>
+  <p id="msg" role="status"></p>
+</main>
+<script src="assets/lock.js?v=1" data-page="locked/home.bin" data-index="locked/index.json"></script>
+</body>
+</html>

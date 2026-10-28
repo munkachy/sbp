@@ -1,0 +1,7 @@
+# Preview copy: keep search engines out until this site replaces www.stbernardprep.com.
+# At launch, replace with:
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://www.stbernardprep.com/sitemap.xml
+User-agent: *
+Disallow: /
