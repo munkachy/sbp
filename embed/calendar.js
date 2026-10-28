@@ -76,18 +76,17 @@
     '#sbp-calendar .sbpc-eyebrow{margin:0 0 12px;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}' +
     '#sbp-calendar .sbpc-eyebrow.sbpc-dk{color:var(--golddk)}' +
     /* toolbar */
-    '#sbp-calendar .sbpc-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 12px}' +
-    '#sbp-calendar .sbpc-left{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}' +
-    '#sbp-calendar .sbpc-views{display:inline-flex;padding:4px;border:1px solid var(--navy);border-radius:999px}' +
-    '#sbp-calendar .sbpc-views button{padding:9px 22px;border-radius:999px;font-size:16px;font-weight:500}' +
+    /* one row: Month/List, Add all, the four filters */
+    '#sbp-calendar .sbpc-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px}' +
+    '#sbp-calendar .sbpc-left{display:flex;align-items:center;gap:8px}' +
+    '#sbp-calendar .sbpc-views{display:inline-flex;padding:3px;border:1px solid var(--navy);border-radius:999px}' +
+    '#sbp-calendar .sbpc-views button{padding:5px 14px;border-radius:999px;font-size:14px;font-weight:500}' +
     '#sbp-calendar .sbpc-views button[aria-pressed="true"]{background:var(--navy);color:var(--cream)}' +
-    '#sbp-calendar .sbpc-addall{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px solid var(--gold);border-radius:999px;color:var(--navy);font-size:14.5px;font-weight:500;transition:background-color .18s}' +
+    '#sbp-calendar .sbpc-addall{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--gold);border-radius:999px;color:var(--navy);font-size:13.5px;white-space:nowrap;font-weight:500;transition:background-color .18s}' +
     '#sbp-calendar .sbpc-addall:hover{background:var(--goldsoft)}' +
-    '#sbp-calendar .sbpc-addall svg{width:16px;height:16px;flex:none;color:var(--golddk)}' +
-    /* one row: filters (two by two) and the coming-up cards */
-    '#sbp-calendar .sbpc-strip{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:10px;align-items:stretch;margin:0 0 22px}' +
-    '#sbp-calendar .sbpc-filters{display:grid;grid-template-columns:auto auto;align-content:center;gap:6px}' +
-    '#sbp-calendar .sbpc-filter{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:#fff;border:1px solid var(--line);border-radius:999px;color:var(--navy);font-size:13.5px;font-weight:500;white-space:nowrap;transition:opacity .15s,border-color .15s}' +
+    '#sbp-calendar .sbpc-addall svg{width:15px;height:15px;flex:none;color:var(--golddk)}' +
+    '#sbp-calendar .sbpc-filters{display:flex;flex-wrap:wrap;gap:6px}' +
+    '#sbp-calendar .sbpc-filter{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;background:#fff;border:1px solid var(--line);border-radius:999px;color:var(--navy);font-size:13.5px;font-weight:500;white-space:nowrap;transition:opacity .15s,border-color .15s}' +
     '#sbp-calendar .sbpc-filter:hover{border-color:var(--gold)}' +
     '#sbp-calendar .sbpc-filter[aria-pressed="false"]{opacity:.45}' +
     '#sbp-calendar .sbpc-filter[aria-pressed="false"] i{background:transparent!important}' +
@@ -97,6 +96,7 @@
     '#sbp-calendar .sbpc-k-noschool{background:var(--sky);border:2px solid var(--line2);border-radius:4px!important}' +
     '#sbp-calendar .sbpc-k-admissions{background:var(--navy);border:2px solid var(--navy)}' +
     /* coming up */
+    '#sbp-calendar .sbpc-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch;margin:0 0 22px}' +
     '#sbp-calendar .sbpc-stat{display:flex;flex-direction:column;justify-content:flex-start;width:100%;padding:9px 13px 11px;background:radial-gradient(120% 160% at 100% 0,rgba(70,140,188,.35) 0,rgba(70,140,188,0) 60%),var(--navy);border-top:3px solid var(--gold);border-radius:12px;color:var(--cream);text-align:left;box-shadow:0 10px 22px -16px rgba(1,37,61,.8);transition:transform .18s}' +
     '#sbp-calendar .sbpc-stat:hover{transform:translateY(-2px)}' +
     '#sbp-calendar .sbpc-stat small{display:block;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}' +
@@ -184,9 +184,8 @@
       '#sbp-calendar .sbpc-bar h3{font-size:24px}' +
       '#sbp-calendar .sbpc-bar button em{display:none}' +
       '#sbp-calendar .sbpc-bar button{padding:8px 10px}' +
-      '#sbp-calendar .sbpc-views button{padding:8px 18px}' +
-      '#sbp-calendar .sbpc-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}' +
-      '#sbp-calendar .sbpc-filters{grid-column:1/-1;display:flex;flex-wrap:wrap}' +
+      '#sbp-calendar .sbpc-tools{justify-content:flex-start}' +
+      '#sbp-calendar .sbpc-strip{gap:8px}' +
       '#sbp-calendar .sbpc-stat{padding:8px 10px 10px}' +
       '#sbp-calendar .sbpc-stat .sbpc-big{font-size:17px}' +
       '#sbp-calendar .sbpc-stat span.sbpc-what{font-size:12.5px}' +
@@ -230,8 +229,9 @@
 
     root.innerHTML = '<style>' + CSS + '</style>' +
       '<div class="sbpc-tools"><div class="sbpc-left"><div class="sbpc-views" role="group" aria-label="View"><button type="button" data-view="month">Month</button><button type="button" data-view="list">List</button></div>' +
-      '<button type="button" class="sbpc-addall" data-ics="all">' + ICON_CAL + 'Add all to my calendar</button></div></div>' +
-      '<div class="sbpc-strip"><div class="sbpc-filters" role="group" aria-label="Show"></div>' +
+      '<button type="button" class="sbpc-addall" data-ics="all" title="Add all to my calendar" aria-label="Add all to my calendar">' + ICON_CAL + 'Add all</button></div>' +
+      '<div class="sbpc-filters" role="group" aria-label="Show"></div></div>' +
+      '<div class="sbpc-strip">' +
       next.map(function (e, i) {
         return '<button type="button" class="sbpc-stat" data-jump="' + e.id + '"><small>' + (i ? 'Then' : 'Coming up') + '</small><span class="sbpc-big">' + when(e) + '</span><span class="sbpc-what">' + esc(e.t) + '</span></button>';
       }).join('') + '</div>' +
