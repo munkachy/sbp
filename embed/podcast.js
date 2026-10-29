@@ -72,7 +72,19 @@
     '@container sbpbeat not (min-width:640px){' +
       '#sbp-podcast .bb-art{aspect-ratio:16/10;object-position:50% 28%}' +
     '}' +
-    '@media (prefers-reduced-motion:reduce){#sbp-podcast *{transition:none!important}}';
+    '@media (prefers-reduced-motion:reduce){#sbp-podcast *,#sbp-beatbar{transition:none!important}}' +
+    /* bottom bar: appears while listening once the main player is scrolled out of view */
+    '#sbp-beatbar{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));z-index:99999;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;width:min(560px,calc(100vw - 24px));padding:8px 10px 8px 8px;border-radius:16px;background:rgba(1,37,61,.97);border-top:3px solid #d8b95c;box-shadow:0 18px 40px -12px rgba(0,0,0,.55);color:#fff;font-family:interstate,"Helvetica Neue",Helvetica,Arial,sans-serif;transform:translate(-50%,140%);opacity:0;transition:transform .25s,opacity .25s;box-sizing:border-box}' +
+    '#sbp-beatbar.on{transform:translate(-50%,0);opacity:1}' +
+    '#sbp-beatbar img{width:44px;height:44px;margin:0;border-radius:9px;object-fit:cover}' +
+    '#sbp-beatbar button{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;text-align:left;min-width:0;box-shadow:none;border-radius:0}' +
+    '#sbp-beatbar .bbb-go{min-width:0}' +
+    '#sbp-beatbar .bbb-go b{display:block;overflow:hidden;font-size:14px;font-weight:700;line-height:1.3;white-space:nowrap;text-overflow:ellipsis}' +
+    '#sbp-beatbar .bbb-go small{display:block;color:rgba(252,249,240,.7);font-size:12px;line-height:1.3}' +
+    '#sbp-beatbar .bbb-line{height:3px;margin-top:5px;border-radius:3px;background:linear-gradient(#d8b95c,#d8b95c) 0/var(--p,0%) 100% no-repeat,rgba(255,255,255,.2)}' +
+    '#sbp-beatbar .bbb-play{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#d8b95c;color:#01253d}' +
+    '#sbp-beatbar .bbb-play svg{width:18px;height:18px}' +
+    '#sbp-beatbar button:focus-visible{outline:3px solid #d8b95c;outline-offset:3px}';
 
   var ICON = {
     play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
@@ -95,7 +107,8 @@
     if (!eps.length) return;
     var newest = eps[0].n;
 
-    root.innerHTML = '<style>' + CSS + '</style>' +
+    if (!document.getElementById('sbp-beat-css')) { var st = document.createElement('style'); st.id = 'sbp-beat-css'; st.textContent = CSS; document.head.appendChild(st); }
+    root.innerHTML =
       '<p class="bb-about">' + esc(SHOW.about) + '</p>' +
       '<div class="bb-tabs" role="tablist" aria-label="Episodes">' + eps.map(function (e) {
         return '<button type="button" class="bb-tab" role="tab" id="bb-tab-' + e.n + '" data-ep="' + e.n + '" aria-controls="bb-panel">' +
@@ -104,6 +117,9 @@
       '<div class="bb-grid" id="bb-panel" role="tabpanel"><div class="bb-card"></div><article class="bb-essay"></article></div>';
 
     var $ = function (s) { return root.querySelector(s); };
+    var bar = document.getElementById('sbp-beatbar') || document.body.appendChild(document.createElement('div'));
+    bar.id = 'sbp-beatbar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Now playing');
+    var playerSeen = true;
     var audio = new Audio(), cur = null, speeds = [1, 1.25, 1.5, 2], sp = 0;
     audio.preload = 'metadata';
 
@@ -133,12 +149,24 @@
       $('.bb-essay').innerHTML = '<span class="bb-eyebrow">The essay</span><h3>' + esc(e.title) + '</h3><p class="bb-by">By ' + esc(e.by) + '</p>' +
         '<div class="bb-body">' + e.essay.map(function (p) { return '<p>' + p + '</p>'; }).join('') + '</div>' +
         '<p class="bb-end">The Benedictine Beat, episode ' + e.n + '. ' + esc(e.guest) + ', ' + esc(e.role) + '.</p>';
+      bar.innerHTML = '<img src="' + url(e.art) + '" alt=""><button type="button" class="bbb-go" aria-label="Back to the player"><b>Episode ' + e.n + ' · ' + esc(e.short || e.guest) + '</b>' +
+        '<small class="bbb-time">0:00</small><div class="bbb-line"></div></button><button type="button" class="bbb-play" aria-label="Play">' + ICON.play + '</button>';
       if (history.replaceState) history.replaceState(null, '', '#episode-' + e.n);
       if ('mediaSession' in navigator && e.audio) navigator.mediaSession.metadata = new MediaMetadata({ title: 'Episode ' + e.n + ': ' + e.guest, artist: SHOW.title, album: 'St. Bernard Preparatory School', artwork: [{ src: url(e.art), sizes: '600x600', type: 'image/jpeg' }] });
       if (focus) $('.bb-tab[aria-selected="true"]').focus();
     }
 
     function sync() {
+      var pl = $('.bb-player') || $('.bb-card'), r = pl && pl.getBoundingClientRect();
+      playerSeen = !r || (r.bottom > 0 && r.top < window.innerHeight);
+      var started = audio.currentTime > 0 || !audio.paused;
+      bar.classList.toggle('on', !!(cur && cur.audio && started && !playerSeen));
+      var bb = bar.querySelector('.bbb-play');
+      if (bb) {
+        bb.innerHTML = audio.paused ? ICON.play : ICON.pause; bb.setAttribute('aria-label', audio.paused ? 'Play' : 'Pause');
+        bar.querySelector('.bbb-time').textContent = clock(audio.currentTime) + (audio.duration ? ' / ' + clock(audio.duration) : '');
+        if (audio.duration) bar.querySelector('.bbb-line').style.setProperty('--p', audio.currentTime / audio.duration * 100 + '%');
+      }
       var btn = $('.bb-play'), seek = $('.bb-seek'); if (!btn) return;
       var playing = !audio.paused;
       btn.innerHTML = playing ? ICON.pause : ICON.play; btn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
@@ -150,6 +178,15 @@
       }
     }
     ['play', 'pause', 'timeupdate', 'loadedmetadata', 'ended'].forEach(function (ev) { audio.addEventListener(ev, sync); });
+    var queued = false;   // the bottom bar shows only while the main player is off screen
+    window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; sync(); }); } }, { passive: true });
+    window.addEventListener('resize', sync);
+    setInterval(function () { if (bar.classList.contains('on')) sync(); }, 700);   // in case a browser skips scroll events
+    bar.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button'); if (!b) return;
+      if (b.classList.contains('bbb-play')) { audio.paused ? audio.play() : audio.pause(); }
+      else $('.bb-card').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    });
 
     root.addEventListener('click', function (ev) {
       var b = ev.target.closest('button'); if (!b || !root.contains(b)) return;
