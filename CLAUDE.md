@@ -54,7 +54,10 @@ www.stbernardprep.com/admissions/tuition-financial-aid holds only
     <script src="https://munkachy.github.io/sbp/embed/embed.js" defer></script>
 
 `embed/tuition.html` is that page's whole body (video, FACTS text, the `#sbp-tuition` CHOOSE Act and rates block),
-taken from the live page on 29 Oct 2026. Pages behind Cloudflare hide email addresses ("[email protected]",
+taken from the live page on 29 Oct 2026. Its video and the testimonial boxes (`embed/video-NAME.html`, one per
+`video/testimonial-NAME.mp4` + `.jpg` still; `embed/testimonials.html` shows all four) replace Vimeo, which the school
+is dropping. Vimeo blocks downloads from cloud sessions; the school sends originals through a shared Google Drive folder.
+Testimonials: crf 25, `-maxrate 2000k -bufsize 4000k`, aac 96k; still = the name-card frame, 1280 wide, `-q:v 4`. Pages behind Cloudflare hide email addresses ("[email protected]",
 `/cdn-cgi/l/email-protection`), so when copying from the live site, decode them back to plain `mailto:` links.
 Test: open the live page in Playwright, swap the content for the snippet, route the two GitHub URLs to local files,
 and compare the text with the live page.
