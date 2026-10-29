@@ -15,7 +15,7 @@ now and at the domain root later (the one exception is `404.html`, see "Going li
 | `images/` | Photos, re-saved from the originals on stbernardprep.com (`/userfiles/bernardpsmvc/images/...`); `og.jpg` is the picture shown when the link is shared |
 | `video/` | `hero-720.mp4` / `hero-1080.mp4` (28 s loop, no sound), `tour-720.mp4` (the 6-minute "Heart of St. Bernard Prep" virtual tour) |
 | `robots.txt`, `sitemap.xml`, `404.html` | See "Going live" |
-| `embed/` | The calendar for the **current** site's page www.stbernardprep.com/calendar (see "Calendar") |
+| `embed/` | Sections of the **current** site served from here: the calendar (see "Calendar") and the tuition page (see "Sections") |
 | `new/` | **The proposed new design** (its `index.html` is sealed too) (https://munkachy.github.io/sbp/new/): `index.html`, `new.css`, `new.js`, sharing `../images`, `../video` and `../assets/fonts.css`. Photos for it are `images/n-*.jpg`, re-saved from the school's inner pages. Every fact on it comes from stbernardprep.com pages; keep it that way |
 
 ## Password
@@ -42,6 +42,22 @@ days off. Styled like the tuition page's `#sbp-tuition` block; the page supplies
 site picks it up within about 10 minutes (Pages cache). No sports events (Rachael, 28 Oct 2026).
 Test: open the live page in Playwright, put the snippet into `.content-wrap`, and route the script URL to the local
 file. When the site moves to a school GitHub account, the script URL changes and the CMS snippet must be updated once.
+
+## Sections (for the current site)
+
+`embed/embed.js` fills any CMS box whose id starts `sbp-embed-` with the matching file from `embed/`
+(`sbp-embed-tuition` gets `embed/tuition.html`). It fetches with `cache: no-cache`, so an edit shows on the next page
+load. If the fetch fails the box keeps its own text, so give that text a phone number. In place now:
+www.stbernardprep.com/admissions/tuition-financial-aid holds only
+
+    <div class="sbp" id="sbp-embed-tuition"><p>Loading tuition and financial aid… If this doesn’t appear, call the Business Office at (256) 255-5830.</p></div>
+    <script src="https://munkachy.github.io/sbp/embed/embed.js" defer></script>
+
+`embed/tuition.html` is that page's whole body (video, FACTS text, the `#sbp-tuition` CHOOSE Act and rates block),
+taken from the live page on 29 Oct 2026. Pages behind Cloudflare hide email addresses ("[email protected]",
+`/cdn-cgi/l/email-protection`), so when copying from the live site, decode them back to plain `mailto:` links.
+Test: open the live page in Playwright, swap the content for the snippet, route the two GitHub URLs to local files,
+and compare the text with the live page.
 
 ## Links to pages not built yet
 
