@@ -62,6 +62,22 @@ Testimonials: crf 25, `-maxrate 2000k -bufsize 4000k`, aac 96k; still = the name
 Test: open the live page in Playwright, swap the content for the snippet, route the two GitHub URLs to local files,
 and compare the text with the live page.
 
+## The Benedictine Beat (podcast, for the current site)
+
+`embed/podcast.js` draws the whole podcast on one page (www.stbernardprep.com/the-benedictine-beat): episode tabs,
+a navy listening card (cover, player with 15/30 s skips and speed) beside the essay. The CMS page holds only
+
+    <div class="sbp" id="sbp-podcast"><p>Loading The Benedictine Beat…</p></div>
+    <script src="https://munkachy.github.io/sbp/embed/podcast.js" defer></script>
+
+**Episodes are the list at the top of `podcast.js`**, newest first: guest, role, essay title and paragraphs (by
+Rachael Stover), `audio/beat-N.m4a`, square cover `images/beat-N.jpg`, and `release` (an episode stays hidden until
+then; `?preview` on the page address shows it early). Audio comes from the school's originals (mp4 files with a black
+picture): `ffmpeg -i in.mp4 -vn -af loudnorm=I=-16:TP=-1.5:LRA=11:<measured values>:linear=true -ar 48000 -c:a aac
+-b:a 96k -ac 2 -movflags +faststart beat-N.m4a` (two-pass loudnorm, so every episode plays at -16 LUFS). Covers: 600 px
+square. SoundCloud is no longer needed; `soundcloud` in an entry is only a fallback for an episode without `audio`.
+Episode 3 (Dr. Craig Mann, music) added 29 Oct 2026 with the essay's "will time" corrected to "will take time".
+
 ## Links to pages not built yet
 
 Every link to an inner page goes to the live site (`https://www.stbernardprep.com/...`). As each page is built here,
