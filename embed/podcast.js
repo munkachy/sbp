@@ -64,9 +64,10 @@
     '#sbp-podcast .bb-essay .bb-body>p:first-child::first-letter{float:left;margin:.06em .12em 0 0;color:var(--navy);font-family:var(--disp);font-size:4.1em;line-height:.8}' +
     '#sbp-podcast .bb-essay em{font-style:italic}' +
     '#sbp-podcast .bb-essay .bb-end{margin:2em 0 0;padding-top:1em;border-top:1px solid var(--gold);color:var(--mute);font-size:15px}' +
-    '@container sbpbeat (min-width:640px){' +
-      '#sbp-podcast .bb-grid{grid-template-columns:minmax(240px,300px) 1fr;gap:clamp(28px,4cqw,48px)}' +
-      '#sbp-podcast .bb-card{position:sticky;top:120px}' +
+    '@container sbpbeat (min-width:640px){' +   /* the essay wraps around the listening card */
+      '#sbp-podcast .bb-grid{display:flow-root}' +
+      '#sbp-podcast .bb-card{float:left;width:clamp(240px,38cqw,300px);margin:6px clamp(26px,4cqw,40px) 18px 0}' +
+      '#sbp-podcast .bb-essay{max-width:none}' +
     '}' +
     '@container sbpbeat not (min-width:640px){' +
       '#sbp-podcast .bb-art{aspect-ratio:16/10;object-position:50% 28%}' +

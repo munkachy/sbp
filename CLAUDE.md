@@ -65,7 +65,7 @@ and compare the text with the live page.
 ## The Benedictine Beat (podcast, for the current site)
 
 `embed/podcast.js` draws the whole podcast on one page (www.stbernardprep.com/the-benedictine-beat): episode tabs,
-a navy listening card (cover, player with 15/30 s skips and speed) beside the essay. The CMS page holds only
+a navy listening card (cover, player with 15/30 s skips and speed) that the essay wraps around (float). The CMS page holds only
 
     <div class="sbp" id="sbp-podcast"><p>Loading The Benedictine Beat…</p></div>
     <script src="https://munkachy.github.io/sbp/embed/podcast.js" defer></script>
