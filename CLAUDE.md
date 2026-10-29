@@ -13,7 +13,7 @@ now and at the domain root later (the one exception is `404.html`, see "Going li
 | `assets/site.js` | Menu, Festivals list, background-video pause, virtual tour player, side-scroller arrows, panels |
 | `assets/fonts.css` | The school's Adobe Fonts, Gyst and Interstate (see Fonts). Link it before site.css on every page |
 | `images/` | Photos, re-saved from the originals on stbernardprep.com (`/userfiles/bernardpsmvc/images/...`); `og.jpg` is the picture shown when the link is shared |
-| `video/` | `hero-720.mp4` / `hero-1080.mp4` (28 s loop, no sound), `tour-720.mp4` (the 6-minute "Heart of St. Bernard Prep" virtual tour) |
+| `video/` | `hero-720.mp4` / `hero-1080.mp4` (28 s loop, no sound), `tour-720.mp4` / `tour-1080.mp4` (the 6-minute "Heart of St. Bernard Prep" virtual tour). The **current** site's home page also plays `hero-1080.mp4` (background montage) and `tour-1080.mp4` (Virtual Tour "Play Video") from here, in place of Vimeo (29 Oct 2026), so keep these paths |
 | `robots.txt`, `sitemap.xml`, `404.html` | See "Going live" |
 | `embed/` | Sections of the **current** site served from here: the calendar (see "Calendar") and the tuition page (see "Sections") |
 | `new/` | **The proposed new design** (its `index.html` is sealed too) (https://munkachy.github.io/sbp/new/): `index.html`, `new.css`, `new.js`, sharing `../images`, `../video` and `../assets/fonts.css`. Photos for it are `images/n-*.jpg`, re-saved from the school's inner pages. Every fact on it comes from stbernardprep.com pages; keep it that way |
@@ -77,7 +77,8 @@ Web Projects); until then the page falls back to Georgia and Arial.
 
 Made with ffmpeg from the Vimeo originals (account `stbernardprep`):
 `ffmpeg -i in.mp4 -an -vf scale=1280:-2 -c:v libx264 -preset slow -crf 27 -pix_fmt yuv420p -movflags +faststart hero-720.mp4`
-(1920 for the 1080 version; the tour keeps its sound: `-c:a aac -b:a 96k`, crf 26). GitHub refuses files over 100 MB.
+(1920 for the 1080 version; the tour keeps its sound: `-c:a aac -b:a 96k`, crf 26; `tour-1080.mp4` is crf 25 with
+`-maxrate 2000k -bufsize 4000k` to stay at 81 MB). GitHub refuses files over 100 MB.
 
 ## Testing
 
