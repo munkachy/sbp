@@ -76,7 +76,7 @@ then; `?preview` on the page address shows it early). Audio comes from the schoo
 picture): `ffmpeg -i in.mp4 -vn -af loudnorm=I=-16:TP=-1.5:LRA=11:<measured values>:linear=true -ar 48000 -c:a aac
 -b:a 96k -ac 2 -movflags +faststart beat-N.m4a` (two-pass loudnorm, so every episode plays at -16 LUFS). Covers: 600 px
 square. SoundCloud is no longer needed; `soundcloud` in an entry is only a fallback for an episode without `audio`.
-Episode 3 (Dr. Craig Mann, music) added 29 Oct 2026 with the essay's "will time" corrected to "will take time".
+Episode 3 (Dr. Craig Mann, theology, history and music) added 29 Oct 2026 with the essay's "will time" corrected to "will take time".
 
 ## Links to pages not built yet
 
