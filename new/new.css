@@ -11,8 +11,8 @@
   --gold: #d8b95c;
   --gold-grad: linear-gradient(180deg, #ecd9a0 0%, #d8b95c 55%, #b8963f 100%);
   --gold-ink: #004069;          /* gold dark enough for text on cream */
-  --cream: #fbf8f1;
-  --stone: #f1ebdf;
+  --cream: #fefefe;
+  --stone: #f5f7f9;
   --ink: #01253d;
   --muted: #4c7080;
   --line: rgba(0,64,105, .14);
