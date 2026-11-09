@@ -78,6 +78,24 @@ picture): `ffmpeg -i in.mp4 -vn -af loudnorm=I=-16:TP=-1.5:LRA=11:<measured valu
 square. SoundCloud is no longer needed; `soundcloud` in an entry is only a fallback for an episode without `audio`.
 Episode 3 (Dr. Craig Mann, theology, history and music) added 29 Oct 2026 with the essay's "will time" corrected to "will take time".
 
+## Alumni Christmas Party poll (for the current site)
+
+`embed/alumni-poll.js` draws a one-question date poll (four answers, name, optional class year) on
+www.stbernardprep.com/alumni/reunions-events, styled like that page (centered, uppercase Gyst headings on the pale-blue
+`rgba(167,196,210,.25)` band, Interstate 300 at 19px, gold-outlined pill button). The CMS page holds only
+
+    <div class="sbp" id="sbp-alumni-poll"><p>Loading the poll… If it doesn’t appear, email festivals@stbernardprep.com.</p></div>
+    <script src="https://munkachy.github.io/sbp/embed/alumni-poll.js" defer></script>
+
+**The wording and dates are `POLL` at the top of the file** (text from Anabelle, 9 Nov 2026; deadline "as soon as
+possible", so `closes` is empty). Answers go to a Google Sheet through the Apps Script web app in
+`tools/alumni-poll-sheet.gs` (set-up steps at its top); its `/exec` URL goes in `SHEET_URL`. Until that is set the
+poll asks people to email. The browser posts a plain form (`URLSearchParams`, no preflight, which Apps Script can't
+answer). Each browser gets a random id, so a changed answer updates that person's row instead of adding one; "Totals"
+counts them. Test like the calendar: Playwright on the live page, route the script URL to the local file and
+`script.google.com` to a fake reply (the built-in browser pane blocks localhost scripts in live pages).
+For a later poll, copy the file, change `POLL.id` and the box id, and make a new Sheet.
+
 ## Links to pages not built yet
 
 Every link to an inner page goes to the live site (`https://www.stbernardprep.com/...`). As each page is built here,
