@@ -16,7 +16,8 @@
       { v: 'fri', big: 'Friday', date: 'Dec. 18', time: '6:30 p.m.', label: 'Friday, Dec. 18, at 6:30 p.m. only' },
       { v: 'sat', big: 'Saturday', date: 'Dec. 19', time: '6:30 p.m.', label: 'Saturday, Dec. 19, at 6:30 p.m. only' },
       { v: 'either', big: 'Either date', sub: 'Either date works for me', label: 'Either date works for me' },
-      { v: 'neither', big: 'Neither', sub: 'I’m unable to attend either date', label: 'I’m unable to attend either date' }
+      { v: 'neither', big: 'Neither', sub: 'I’m unable to attend either date', label: 'I’m unable to attend either date',
+        thanks: 'We’re sorry you can’t make it, and we’ll miss you. Thanks for letting us know!' }
     ],
     closes: '2026-11-13T23:59:59-06:00',            // e.g. '2026-11-16T12:00:00-06:00'; '' = stays open until this is set
     closesText: 'Please answer by Friday, Nov. 13.',   // shown under the question while open
@@ -72,6 +73,7 @@
     K + ' .ap-msg{min-height:31px;margin-top:12px;color:var(--mute);font-size:17px}' +
     K + ' .ap-msg.is-err{color:var(--red);font-weight:400}' +
     K + ' .ap-done{padding:6px 0 0}' +
+    K + ' .ap-yours{margin:0 0 6px;color:var(--mute);font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}' +
     K + ' .ap-pick{display:inline-block;margin:0 0 18px;padding:10px 20px;background:var(--navy);border-top:4px solid var(--gold);color:#fff;font-weight:400}' +
     K + ' .ap-thx{max-width:34rem;margin:0 auto 16px}' +
     K + ' button.ap-change{color:var(--navy);font-size:17px;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:3px}' +
@@ -156,8 +158,8 @@
     var o = optBy(saved.choice);
     box.innerHTML = '<h2><span class="ap-band">' + esc(POLL.eyebrow) + '</span></h2><div class="ap-done" role="status">' +
       '<h3><span class="ap-band">' + (fresh ? 'Thank you' : 'You’ve answered') + (saved.name ? ', ' + esc(saved.name.split(' ')[0]) : '') + '!</span></h3>' +
-      '<p class="ap-pick">' + esc(o ? o.label : saved.choice) + '</p>' +
-      '<p class="ap-thx">' + esc(POLL.thanks) + '</p>' +
+      '<p class="ap-yours">Your answer</p><p class="ap-pick">' + esc(o ? o.label : saved.choice) + '</p>' +
+      '<p class="ap-thx">' + esc(o && o.thanks || POLL.thanks) + '</p>' +
       (closed ? '' : '<button type="button" class="ap-change">Change my answer</button>') + '</div>';
     var ch = box.querySelector('.ap-change');
     if (ch) ch.addEventListener('click', function () { drawForm(saved); });
