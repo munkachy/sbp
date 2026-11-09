@@ -385,10 +385,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .link-arrow-light { color: #fefefe; }
 
 /* Header: the guide's reversed horizontal logo with "Preparatory School"; utility row as a slate band */
-.brand { width: 12.6rem; height: 3rem; background: url("../images/brand/logo-horizontal-prep-dark.svg") left center / contain no-repeat; transition: height .35s, width .35s; }
-.brand img { display: none; }
-.brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.top.solid .brand { height: 2.6rem; width: 10.9rem; }
+.brand { gap: .8rem; }
+.brand::before { content: ""; flex: none; width: 2.7rem; height: 2.9rem; background: url("../images/brand/cross-dark.svg") center / contain no-repeat; transition: width .35s, height .35s; }
+.brand img { order: 3; width: auto; height: 2.9rem; transition: height .35s; }
+.brand-name { font: 700 1.1rem/1 var(--serif); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.brand-name small { font: 600 .6rem/1 var(--sans); letter-spacing: .22em; margin-top: .45rem; opacity: .85; white-space: nowrap; }
+.top.solid .brand::before { width: 2.3rem; height: 2.5rem; }
+.top.solid .brand img { height: 2.5rem; }
 .util { background: var(--slate); border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
 .util-motto { font-family: var(--serif); font-style: italic; text-transform: none; letter-spacing: .02em; font-size: .95rem; opacity: 1; }
 .util-links a { opacity: 1; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: .3em; }
@@ -422,4 +425,4 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .foot-brand::before { content: ""; display: block; width: 11rem; height: 10.6rem; margin: 0 0 1.2rem -.3rem; background: url("../images/brand/logo-primary-prep-dark.svg") left top / contain no-repeat; }
 .foot-h { font: 600 .7rem/1 var(--sans); letter-spacing: .26em; padding-bottom: .9rem; margin-bottom: .9rem; border-bottom: 1px solid rgba(216,185,92,.3); }
 .foot-safe, .foot-base { border-top-color: rgba(216,185,92,.25); }
-@media (max-width: 48em) { .brand { width: 10.9rem; height: 2.6rem; } .util { letter-spacing: .08em; } }
+@media (max-width: 48em) { .brand { gap: .55rem; } .brand::before { width: 2.2rem; height: 2.4rem; } .brand img { height: 2.4rem; } .brand-name { font-size: .85rem; letter-spacing: .06em; } .brand-name small { display: none; } .util { letter-spacing: .08em; } }
