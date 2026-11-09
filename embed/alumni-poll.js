@@ -23,7 +23,7 @@
     thanks: 'We’ll send an invitation with the details once the date is set. Thanks for helping us choose!',
     contact: 'festivals@stbernardprep.com'
   };
-  var SHEET_URL = '';      // the Apps Script web app URL (…/exec); until it is set the poll asks people to email
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyKz9cwP5pT09BVz_AmRBTuYGlCUDDc3AomjMdDUOolur82MdCq2jocbVlraD9y1S5u/exec';      // the Apps Script web app URL (…/exec); until it is set the poll asks people to email
 
   var box = document.getElementById('sbp-alumni-poll');
   if (!box || box.getAttribute('data-ready')) return;
