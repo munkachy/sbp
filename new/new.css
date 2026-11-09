@@ -10,11 +10,11 @@
   --navy-ink: #01253d;
   --gold: #d8b95c;
   --gold-grad: linear-gradient(180deg, #ecd9a0 0%, #d8b95c 55%, #b8963f 100%);
-  --gold-ink: #8a6a12;          /* gold dark enough for text on cream */
-  --cream: #fbf8f1;
-  --stone: #f1ebdf;
-  --ink: #16212b;
-  --muted: #55606b;
+  --gold-ink: #004069;          /* gold dark enough for text on cream */
+  --cream: #f5f7f9;
+  --stone: #e6edf2;
+  --ink: #01253d;
+  --muted: #4c7080;
   --line: rgba(0,64,105, .14);
   --serif: "Libre Baskerville", Georgia, serif;
   --caps: "Libre Baskerville", Georgia, serif;
