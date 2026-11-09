@@ -18,8 +18,8 @@
       { v: 'either', big: 'Either date', sub: 'Either date works for me', label: 'Either date works for me' },
       { v: 'neither', big: 'Neither', sub: 'I’m unable to attend either date', label: 'I’m unable to attend either date' }
     ],
-    closes: '',            // e.g. '2026-11-16T12:00:00-06:00'; '' = stays open until this is set
-    closesText: 'We’d love to hear from you as soon as possible.',   // shown under the question while open
+    closes: '2026-11-13T23:59:59-06:00',            // e.g. '2026-11-16T12:00:00-06:00'; '' = stays open until this is set
+    closesText: 'Please answer by Friday, Nov. 13.',   // shown under the question while open
     thanks: 'We’ll send an invitation with the details once the date is set. Thanks for helping us choose!',
     contact: 'festivals@stbernardprep.com'
   };

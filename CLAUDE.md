@@ -87,8 +87,8 @@ www.stbernardprep.com/alumni/reunions-events, styled like that page (centered, u
     <div class="sbp" id="sbp-alumni-poll"><p>Loading the poll… If it doesn’t appear, email festivals@stbernardprep.com.</p></div>
     <script src="https://munkachy.github.io/sbp/embed/alumni-poll.js" defer></script>
 
-**The wording and dates are `POLL` at the top of the file** (text from Anabelle, 9 Nov 2026; deadline "as soon as
-possible", so `closes` is empty). Answers go to a Google Sheet through the Apps Script web app in
+**The wording and dates are `POLL` at the top of the file** (text from Anabelle, 9 Nov 2026; deadline Friday, Nov. 13, 2026: `closes`
+is the end of that day, Central; after it the page shows "The poll has closed"). Answers go to a Google Sheet through the Apps Script web app in
 `tools/alumni-poll-sheet.gs` (set-up steps at its top); its `/exec` URL goes in `SHEET_URL`. Until that is set the
 poll asks people to email. The browser posts a plain form (`URLSearchParams`, no preflight, which Apps Script can't
 answer). Each browser gets a random id, so a changed answer updates that person's row instead of adding one; "Totals"
