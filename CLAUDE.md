@@ -18,6 +18,17 @@ now and at the domain root later (the one exception is `404.html`, see "Going li
 | `embed/` | Sections of the **current** site served from here: the calendar (see "Calendar") and the tuition page (see "Sections") |
 | `new/` | **The proposed new design** (its `index.html` is sealed too) (https://munkachy.github.io/sbp/new/): `index.html`, `new.css`, `new.js`, sharing `../images`, `../video` and `../assets/fonts.css`. Photos for it are `images/n-*.jpg`, re-saved from the school's inner pages. Every fact on it comes from stbernardprep.com pages; keep it that way |
 
+## The new design's look (`new/`, Nov 2026)
+
+`new/new.css` follows the **St. Bernard Brand Guide (9.10.2024)**, the same as the abbey site (munkachy/newmonksite): navy #004069,
+gold #D8B95C, white background (#FEFEFE, bands #F5F7F9), Libre Baskerville headings and Noto Sans text from Google Fonts (`@import` at the
+top of new.css), so the new design no longer uses Gyst and Interstate. The current site (`index.html`, `assets/`) is unchanged.
+The guide's logos, cut from its PDF (tools in munkachy/newmonksite `_notes/tools/brand/`), are in `images/brand/`: the header shows the
+official cross, the name, and the abbey's crest (`images/abbey-crest.png`) on the right; the page ends with a gold rule between the cross
+and the crest; the footer opens with a colophon (cross, "St. Bernard Abbey & Preparatory School", Ora et labora, crest); the four path cards
+carry the cross and the abbey card the crest. Those last pieces are in the sealed `new/index.html` (opened and resealed with the
+password on 9 Nov 2026; `new.css?v=5`). The user supplied the password in chat; it is still never written into the repo.
+
 ## Password
 
 The preview is locked with a password (the user, 28 Oct 2026; the user knows it, never write it into the repo).
