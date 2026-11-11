@@ -34,8 +34,9 @@ password on 9 Nov 2026; `new.css?v=5`). The user supplied the password in chat; 
 The preview is locked with a password (the user, 28 Oct 2026; the user knows it, never write it into the repo).
 `index.html` and `new/index.html` in the repo are only lock pages; the real pages are AES-GCM sealed in `locked/`
 (PBKDF2-SHA256, 600,000 rounds, same scheme as the psalter vault). The browser asks once, then remembers the key.
-To edit a page: `SBP_PASSWORD=... python3 tools/lock.py open SCRATCH`, edit `SCRATCH/index.html` or
-`SCRATCH/new/index.html`, then `SBP_PASSWORD=... python3 tools/lock.py seal SCRATCH` (writes `locked/` and the lock pages).
+The password lives in `~/.sbp-pw` (one line, `chmod 600`), never typed into a command.
+To edit a page: `SBP_PASSWORD="$(cat ~/.sbp-pw)" python3 tools/lock.py open SCRATCH`, edit `SCRATCH/index.html` or
+`SCRATCH/new/index.html`, then `SBP_PASSWORD="$(cat ~/.sbp-pw)" python3 tools/lock.py seal SCRATCH` (writes `locked/` and the lock pages).
 Never commit the readable pages. A new page joins `PAGES` in `tools/lock.py`. Images, video, CSS and JS are not sealed.
 
 ## Calendar (for the current site)
@@ -145,3 +146,18 @@ no sideways scroll (`document.documentElement.scrollWidth` equals the window wid
 5. Verify the site in Google Search Console and submit the sitemap.
 
 The canonical link already points to www.stbernardprep.com, so the preview never competes with the real site in search.
+
+## Rules for every Claude session (Br. Augustine, 11 Nov 2026)
+
+These override Claude Code's default habits.
+
+- **No watching, polling or waking up later.** After opening a pull request, do **not** subscribe to its activity
+  (`subscribe_pr_activity`) and do not wait on it: Br. Augustine merges it, or asks for changes himself. Don't set
+  reminders or scheduled check-ins (`send_later`, `ScheduleWakeup`, scheduled tasks, `/loop`), don't run `Monitor`
+  or sleep-and-recheck loops, and don't keep checking CI, deploys or other sessions. Where a step needs a check
+  (say, that a deploy went live), check **once**, report what you saw, and end the turn. Tokens spent waiting are wasted.
+- **Never type a password, key or token into a command.** Approving a command with "don't ask again" saves it word
+  for word in `.claude/settings.local.json`. Read secrets from a file or the environment
+  (`LECTIONARY_PASSWORD="$(cat ~/.psalter-pw)" python3 …`, keys in `.env`), so a saved rule holds only the file name.
+  When asked to approve, prefer a pattern (`Bash(python3 -m bbreport:*)`) over one exact command.
+- `.claude/settings.local.json` and `CLAUDE.local.md` are personal and never committed (they're in `.gitignore`).
