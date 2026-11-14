@@ -88,6 +88,9 @@ picture): `ffmpeg -i in.mp4 -vn -af loudnorm=I=-16:TP=-1.5:LRA=11:<measured valu
 -b:a 96k -ac 2 -movflags +faststart beat-N.m4a` (two-pass loudnorm, so every episode plays at -16 LUFS). Covers: 600 px
 square. SoundCloud is no longer needed; `soundcloud` in an entry is only a fallback for an episode without `audio`.
 Episode 3 (Dr. Craig Mann, theology, history and music) added 29 Oct 2026 with the essay's "will time" corrected to "will take time".
+Episode 4 (Brother Raphael, the Divine Office) added 13 Nov 2026: cover cropped from a group photo of four monks, and the
+essay's picture (Millet's *The Angelus*) shown through the entry's optional `figure` ({src, alt, caption, after: N}:
+the picture follows paragraph N); "praying, The Angelis" corrected to "praying the Angelus".
 
 ## Alumni Christmas Party poll (for the current site)
 
